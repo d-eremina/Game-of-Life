@@ -1,0 +1,26 @@
+﻿<Properties StartupConfiguration="{69CBA3D7-512A-0225-86E4-6EF6655F75B6}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/GameOfLife.cs">
+    <Files>
+      <File FileName="Assets/CameraMovement.cs" Line="13" Column="6" />
+      <File FileName="Assets/GameOfLife.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="GameOfLife_2" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="GameOfLife.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="0a19a15a-7426-4dab-9670-c72ef7b11137" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
