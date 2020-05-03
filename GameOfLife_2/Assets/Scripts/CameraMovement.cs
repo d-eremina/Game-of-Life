@@ -14,7 +14,6 @@ public class CameraMovement : MonoBehaviour
         gameCamera = GetComponent<Camera>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (gameCamera.orthographic)

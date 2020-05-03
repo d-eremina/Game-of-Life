@@ -64,7 +64,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\CameraMovement.cs" />
-    <Compile Include="Assets\Scripts\GameOfLife.cs" />
+    <Compile Include="Assets\Scripts\GameOfLife2D.cs" />
+    <Compile Include="Assets\Scripts\GameOfLife3D.cs" />
+    <Compile Include="Assets\Scripts\GameOfLifeManager.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>/Users/dariaeremina/GameOfLifeSecondVersion/GameOfLife_2/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
