@@ -51,6 +51,15 @@ public class GameOfLife3D : GameOfLife2D
         }
     }
 
+    public override void NextStep() {
+        // TODO:
+    }
+
+    public override void ResetCells()
+    {
+        // TODO:
+    }
+
     private void ChangeCellState(Vector3Int cellPos)
     {
         // Position might be out of range

@@ -57,7 +57,6 @@ public class GameOfLife2D : MonoBehaviour
         List<Vector2Int> toBeDead = new List<Vector2Int>();
 
         for (int i = 0; i < width; i++)
-        {
             for (int j = 0; j < height; j++)
             {
                 int neighbours = GetNeighbours(i, j);
@@ -72,7 +71,6 @@ public class GameOfLife2D : MonoBehaviour
                     }
                 }
             }
-        }
 
         foreach (var position in toBeAlive)
             CreateCell(position);
@@ -83,7 +81,52 @@ public class GameOfLife2D : MonoBehaviour
         GameOfLifeManager.instance.genText.text = $"Generation: {generation}";
     }
 
-    public void NextStep() => UpdateCells();
+    // Method for one-step updating
+    public virtual void NextStep() => UpdateCells();
+
+    /// <summary>
+    /// Resets board
+    /// </summary>
+    public virtual void ResetCells()
+    {
+        generation = 0;
+        StopSim();
+
+        List<Vector2Int> toBeDead = new List<Vector2Int>();
+
+        for (int i = 0; i < width; i++)
+            for (int j = 0; j < height; j++)
+                if (grid[i, j] != null)
+                    DestroyCell(new Vector2Int(i, j));
+
+        Array.Clear(grid, 0, grid.Length);
+        GameOfLifeManager.instance.genText.text = $"Generation: {generation}";
+    }
+
+    /// <summary>
+    /// Starts game process
+    /// </summary>
+    public virtual void StartSim()
+    {
+        isPlaying = true;
+
+        GameOfLifeManager.instance.StopButton.SetActive(true);
+        GameOfLifeManager.instance.PlayButton.SetActive(false);
+        GameOfLifeManager.instance.StepButton.SetActive(false);
+    }
+
+    /// <summary>
+    /// Stops game process
+    /// </summary>
+    public virtual void StopSim()
+    {
+        isPlaying = false;
+        counter = 0f;
+
+        GameOfLifeManager.instance.StopButton.SetActive(false);
+        GameOfLifeManager.instance.PlayButton.SetActive(true);
+        GameOfLifeManager.instance.StepButton.SetActive(true);
+    }
 
     private int GetNeighbours(int x, int y)
     {
@@ -120,13 +163,9 @@ public class GameOfLife2D : MonoBehaviour
         {
             GameObject cell = grid[cellPos.x, cellPos.y];
             if (cell == null)
-            {
                 CreateCell(cellPos);
-            }
             else
-            {
                 DestroyCell(cellPos);
-            }
         }
         catch
         {
@@ -155,9 +194,7 @@ public class GameOfLife2D : MonoBehaviour
     {
         GameObject deadCell = grid[cellPosition.x, cellPosition.y];
         if (deadCell != null)
-        {
             Destroy(deadCell);
-        }
         grid[cellPosition.x, cellPosition.y] = null;
     }
 }

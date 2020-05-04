@@ -62,6 +62,12 @@ public class GameOfLifeManager : MonoBehaviour
 
     public void NextStep() => game.NextStep();
 
+    public void ResetCells() => game.ResetCells();
+
+    public void StopSim() => game.StopSim();
+
+    public void StartSim() => game.StartSim();
+
     /// <summary>
     /// Method for changing game mode
     /// </summary>
