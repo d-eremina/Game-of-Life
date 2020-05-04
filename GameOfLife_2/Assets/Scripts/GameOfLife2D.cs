@@ -57,26 +57,28 @@ public class GameOfLife2D : MonoBehaviour
         List<Vector2Int> toBeDead = new List<Vector2Int>();
 
         for (int i = 0; i < width; i++)
+        {
             for (int j = 0; j < height; j++)
             {
-                int neighbours = GetNeighbours(i, j);
-                if (grid[i, j] != null)
+                bool cellIsAlive = grid[i, j] != null;
+                int numNeighbours = GetNeighbours(i, j);
+                if (cellIsAlive)
                 {
-                    if (neighbours < 2 || neighbours > 3)
+                    if (numNeighbours < 2 || numNeighbours > 3)
                         toBeDead.Add(new Vector2Int(i, j));
-                    else
-                    {
-                        if (neighbours == 3)
-                            toBeAlive.Add(new Vector2Int(i, j));
-                    }
+                }
+                else
+                {
+                    if (numNeighbours == 3)
+                        toBeAlive.Add(new Vector2Int(i, j));
                 }
             }
+        }
+        foreach (Vector2Int cell in toBeAlive)
+            CreateCell(cell);
 
-        foreach (var position in toBeAlive)
-            CreateCell(position);
-            
-        foreach (var position in toBeDead)
-            DestroyCell(position);
+        foreach (Vector2Int cell in toBeDead)
+            DestroyCell(cell);
 
         GameOfLifeManager.instance.genText.text = $"Generation: {generation}";
     }
@@ -91,8 +93,6 @@ public class GameOfLife2D : MonoBehaviour
     {
         generation = 0;
         StopSim();
-
-        List<Vector2Int> toBeDead = new List<Vector2Int>();
 
         for (int i = 0; i < width; i++)
             for (int j = 0; j < height; j++)
@@ -132,40 +132,34 @@ public class GameOfLife2D : MonoBehaviour
     {
         int neighbours = 0;
 
-        for (int i = x - 1; i <= x + 1; i++)
+        int minXRange = x > 0 ? -1 : 0;
+        int maxXRange = x < width - 1 ? 1 : 0;
+        int minYRange = y > 0 ? -1 : 0;
+        int maxYRange = y < height - 1 ? 1 : 0;
+
+        for (int i = minXRange; i <= maxXRange; i++)
         {
-            // Checking borders
-            if (i < 0 || i >= width)
-                continue;
-
-            for (int j = y - 1; j <= y + 1; j++)
+            for (int j = minYRange; j <= maxYRange; j++)
             {
-                // Checking borders
-                if (j < 0 || j >= height)
+                if (i == 0 && j == 0) // Don't count ourselves
                     continue;
-
-                // Not counting current cell
-                if (i == x && j == y)
-                    continue;
-
-                // From warmer cell to less warm
-                if (grid[i, j] != null)
-                    neighbours++;
+                bool neighbourIsAlive = grid[x + i, y + j] != null;
+                neighbours += neighbourIsAlive ? 1 : 0;
             }
         }
 
         return neighbours;
     }
 
-    private void UpdateMaterial(Vector2Int cellPos)
+    private void UpdateMaterial(Vector2Int cellPosition)
     {
         try
         {
-            GameObject cell = grid[cellPos.x, cellPos.y];
+            GameObject cell = grid[cellPosition.x, cellPosition.y];
             if (cell == null)
-                CreateCell(cellPos);
+                CreateCell(cellPosition);
             else
-                DestroyCell(cellPos);
+                DestroyCell(cellPosition);
         }
         catch
         {
@@ -181,7 +175,6 @@ public class GameOfLife2D : MonoBehaviour
     {
         GameObject newCell = Instantiate(cellPrefab);
         newCell.transform.SetParent(gameBoard);
-        // Moving on (0.5, 0.5) to set center of cell correctly
         newCell.transform.position = cellPosition + new Vector2(0.5f, 0.5f);
         grid[cellPosition.x, cellPosition.y] = newCell;
     }
