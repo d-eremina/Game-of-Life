@@ -35,7 +35,7 @@ public class GameOfLife2D : MonoBehaviour
             if (counter >= GameOfLifeManager.instance.TimeSlider.value)
             {
                 counter = 0.0f;
-                //UpdateCells();
+                UpdateCells();
             }
         }
         else
@@ -48,6 +48,70 @@ public class GameOfLife2D : MonoBehaviour
                 UpdateMaterial(boardPos);
             }
         }
+    }
+
+    void UpdateCells()
+    {
+        generation++;
+        List<Vector2Int> toBeAlive = new List<Vector2Int>();
+        List<Vector2Int> toBeDead = new List<Vector2Int>();
+
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                int neighbours = GetNeighbours(i, j);
+                if (grid[i, j] != null)
+                {
+                    if (neighbours < 2 || neighbours > 3)
+                        toBeDead.Add(new Vector2Int(i, j));
+                    else
+                    {
+                        if (neighbours == 3)
+                            toBeAlive.Add(new Vector2Int(i, j));
+                    }
+                }
+            }
+        }
+
+        foreach (var position in toBeAlive)
+            CreateCell(position);
+            
+        foreach (var position in toBeDead)
+            DestroyCell(position);
+
+        GameOfLifeManager.instance.genText.text = $"Generation: {generation}";
+    }
+
+    public void NextStep() => UpdateCells();
+
+    private int GetNeighbours(int x, int y)
+    {
+        int neighbours = 0;
+
+        for (int i = x - 1; i <= x + 1; i++)
+        {
+            // Checking borders
+            if (i < 0 || i >= width)
+                continue;
+
+            for (int j = y - 1; j <= y + 1; j++)
+            {
+                // Checking borders
+                if (j < 0 || j >= height)
+                    continue;
+
+                // Not counting current cell
+                if (i == x && j == y)
+                    continue;
+
+                // From warmer cell to less warm
+                if (grid[i, j] != null)
+                    neighbours++;
+            }
+        }
+
+        return neighbours;
     }
 
     private void UpdateMaterial(Vector2Int cellPos)

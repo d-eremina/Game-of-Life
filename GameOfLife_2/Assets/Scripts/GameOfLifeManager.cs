@@ -60,15 +60,7 @@ public class GameOfLifeManager : MonoBehaviour
         updateIntervalText.text = "Update Iterval: " + Mathf.Round(instance.updateInterval * 1000.0f) + "ms";
     }
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
+    public void NextStep() => game.NextStep();
 
     /// <summary>
     /// Method for changing game mode
