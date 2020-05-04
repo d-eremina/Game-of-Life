@@ -29,38 +29,38 @@ public class GameOfLife3D : GameOfLife2D
         }
         else
         {
+            // Transforms a point from screen space into world space
             Vector3 pos = gameCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, cameraDistancePlacement));
+
+            // Round to get values for creating 3D cell object in grid
             Vector3Int boardPos = new Vector3Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), Mathf.RoundToInt(pos.z));
+
+            // Setting position of selection indicator to light it up 
             selectedCell.transform.position = boardPos;
+
+            // Checking borders
             if (boardPos.x >= 0 && boardPos.x <= width && boardPos.y >= 0 && boardPos.y <= height && boardPos.z >= 0 && boardPos.z <= depth)
-            {
                 selectedCell.SetActive(true);
-            }
+            // Don't show prefab if user is out of borders
             else
-            {
                 selectedCell.SetActive(false);
-            }
+            // For creating new cell
             bool mouseClicked = Input.GetMouseButtonDown(0);
             if (mouseClicked)
-            {
-                ChangeCell(boardPos);
-            }
+                ChangeCellState(boardPos);
         }
     }
 
-    private void ChangeCell(Vector3Int cellPos)
+    private void ChangeCellState(Vector3Int cellPos)
     {
+        // Position might be out of range
         try
         {
             GameObject cell = grid[cellPos.x, cellPos.y, cellPos.z];
             if (cell == null)
-            {
                 CreateCell(cellPos);
-            }
             else
-            {
                 DestroyCell(cellPos);
-            }
         }
         catch
         {
@@ -68,21 +68,27 @@ public class GameOfLife3D : GameOfLife2D
         }
     }
 
-    private void CreateCell(Vector3Int cellPos)
+    /// <summary>
+    /// Method for creating new cell in 3D scene
+    /// </summary>
+    /// <param name="cellPosition">Cell's position</param>
+    private void CreateCell(Vector3Int cellPosition)
     {
         GameObject newCell = Instantiate(cellPrefab);
         newCell.transform.SetParent(gameBoard);
-        newCell.transform.position = cellPos;
-        grid[cellPos.x, cellPos.y, cellPos.z] = newCell;
+        newCell.transform.position = cellPosition;
+        grid[cellPosition.x, cellPosition.y, cellPosition.z] = newCell;
     }
 
-    private void DestroyCell(Vector3Int cellPos)
+    /// <summary>
+    /// Method for destroying a cell in 3D scene
+    /// </summary>
+    /// <param name="cellPosition">Cell's position</param>
+    private void DestroyCell(Vector3Int cellPosition)
     {
-        GameObject deadCell = grid[cellPos.x, cellPos.y, cellPos.z];
+        GameObject deadCell = grid[cellPosition.x, cellPosition.y, cellPosition.z];
         if (deadCell != null)
-        {
             Destroy(deadCell);
-        }
-        grid[cellPos.x, cellPos.y, cellPos.z] = null;
+        grid[cellPosition.x, cellPosition.y, cellPosition.z] = null;
     }
 }

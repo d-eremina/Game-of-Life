@@ -70,21 +70,30 @@ public class GameOfLife2D : MonoBehaviour
         }
     }
 
-    private void CreateCell(Vector2Int cellPos)
+    /// <summary>
+    /// Method for creating a cell in 2D scene
+    /// </summary>
+    /// <param name="cellPosition">Cell's position</param>
+    private void CreateCell(Vector2Int cellPosition)
     {
         GameObject newCell = Instantiate(cellPrefab);
         newCell.transform.SetParent(gameBoard);
-        newCell.transform.position = cellPos + new Vector2(0.5f, 0.5f);
-        grid[cellPos.x, cellPos.y] = newCell;
+        // Moving on (0.5, 0.5) to set center of cell correctly
+        newCell.transform.position = cellPosition + new Vector2(0.5f, 0.5f);
+        grid[cellPosition.x, cellPosition.y] = newCell;
     }
 
-    private void DestroyCell(Vector2Int cellPos)
+    /// <summary>
+    /// Method for destroying a cell in 2D scene
+    /// </summary>
+    /// <param name="cellPosition">Cell's position</param>
+    private void DestroyCell(Vector2Int cellPosition)
     {
-        GameObject deadCell = grid[cellPos.x, cellPos.y];
+        GameObject deadCell = grid[cellPosition.x, cellPosition.y];
         if (deadCell != null)
         {
             Destroy(deadCell);
         }
-        grid[cellPos.x, cellPos.y] = null;
+        grid[cellPosition.x, cellPosition.y] = null;
     }
 }
