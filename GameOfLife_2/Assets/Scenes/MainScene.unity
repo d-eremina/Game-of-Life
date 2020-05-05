@@ -236,6 +236,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameBoard: {fileID: 156256544}
   gameCamera: {fileID: 957725504}
+  width: 100
+  height: 100
   cellPrefab: {fileID: 8820843599256148196, guid: 139713fbf94a04405adf28a0e7f6b9ab,
     type: 3}
 --- !u!1 &82758897
@@ -316,7 +318,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 82758900}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1202370375}
+        m_MethodName: NextStep
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &82758900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1226,7 +1239,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 379788973}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1202370375}
+        m_MethodName: ResetCells
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &379788973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1891,7 +1915,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 826546383}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1202370375}
+        m_MethodName: StopSim
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &826546383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2521,6 +2556,7 @@ MonoBehaviour:
   ColdColorButton: {fileID: 182244453}
   MediumColorButton: {fileID: 1148157795}
   HotColorButton: {fileID: 1875170077}
+  currentColor: {r: 0, g: 0, b: 0, a: 1}
   SwitchGameModeButton: {fileID: 1836774738}
   SwitchText: {fileID: 238745098}
   TemperatureToggle: {fileID: 269109219}
@@ -2623,13 +2659,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1305473578}
-  m_LocalRotation: {x: 0.30078566, y: -0.3618343, z: 0.124589495, w: 0.87354535}
-  m_LocalPosition: {x: 37, y: 38, z: -12}
+  m_LocalRotation: {x: 0.2816579, y: -0.3644661, z: 0.11666652, w: 0.879899}
+  m_LocalPosition: {x: 36.7, y: 35.2, z: -14.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1322181883}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 38, y: -45, z: 0}
+  m_LocalEulerAnglesHint: {x: 35.5, y: -45, z: 0}
 --- !u!1 &1322181881
 GameObject:
   m_ObjectHideFlags: 0
@@ -2661,7 +2697,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameBoard: {fileID: 951906564}
   gameCamera: {fileID: 1305473579}
-  cellPrefab: {fileID: 0}
+  width: 100
+  height: 100
+  cellPrefab: {fileID: 5164112446142871143, guid: 906e541b950f44dd8b447b41021f47ed,
+    type: 3}
+  width3D: 24
+  height3D: 24
+  depth: 24
+  selectedCell: {fileID: 8211772521780239934, guid: 3260e1ee8a2184992abaf3f2daa3040d,
+    type: 3}
+  cameraDistancePlacement: 10
 --- !u!4 &1322181883
 Transform:
   m_ObjectHideFlags: 0
@@ -2833,7 +2878,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1579326836}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1202370375}
+        m_MethodName: StartSim
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1579326836
 MonoBehaviour:
   m_ObjectHideFlags: 0

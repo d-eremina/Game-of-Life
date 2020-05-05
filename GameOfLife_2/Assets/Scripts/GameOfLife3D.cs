@@ -1,12 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameOfLife3D : GameOfLife2D
 {
+    [SerializeField]
     private GameObject[,,] grid;
-    public int width3D = 24;
-    public int height3D = 24;
+
+    private int width = 24;
+    private int height = 24;
     public int depth = 24;
 
     public GameObject selectedCell;
@@ -15,7 +18,7 @@ public class GameOfLife3D : GameOfLife2D
     // Start is called before the first frame update
     void Awake()
     {
-        grid = new GameObject[width3D, height3D, depth];
+        grid = new GameObject[width, height, depth];
         selectedCell = Instantiate(selectedCell);
         selectedCell.transform.SetParent(gameBoard);
     }
@@ -25,7 +28,12 @@ public class GameOfLife3D : GameOfLife2D
     {
         if (isPlaying)
         {
-
+            counter += Time.deltaTime;
+            if (counter >= GameOfLifeManager.instance.TimeSlider.value)
+            {
+                counter = 0.0f;
+                UpdateCells();
+            }
         }
         else
         {
@@ -51,13 +59,95 @@ public class GameOfLife3D : GameOfLife2D
         }
     }
 
-    public override void NextStep() {
-        // TODO:
+    protected override void UpdateCells()
+    {
+        generation++;
+
+        List<Vector3Int> toBeAlive = new List<Vector3Int>();
+        List<Vector3Int> toBeDead = new List<Vector3Int>();
+
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                for (int k = 0; k < depth; k++)
+                {
+                    bool cellIsAlive = grid[i, j, k] != null;
+                    int numNeighbours = GetNeighbours(i, j, k);
+                    if (cellIsAlive)
+                    {
+                        if (numNeighbours < 7 || numNeighbours > 12)
+                        {
+                            toBeDead.Add(new Vector3Int(i, j, k));
+                        }
+                    }
+                    else
+                    {
+                        if (numNeighbours >= 10 && numNeighbours <= 12)
+                        {
+                            toBeAlive.Add(new Vector3Int(i, j, k));
+                        }
+                    }
+                }
+            }
+        }
+        foreach (Vector3Int cell in toBeAlive)
+        {
+            CreateCell(cell);
+        }
+        foreach (Vector3Int cell in toBeDead)
+        {
+            DestroyCell(cell);
+        }
+
+        GameOfLifeManager.instance.genText.text = $"Generation: {generation}";
     }
+
+    /// <summary>
+    /// Counts number of alive neighbours of cell
+    /// </summary>
+    /// <param name="x">x-coordinate of cell</param>
+    /// <param name="y">y-coordinate of cell</param>
+    /// <param name="z">z-coordinate of cell</param>
+    /// <returns></returns>
+    protected int GetNeighbours(int x, int y, int z)
+    {
+        int neighbours = 0;
+
+        int minXRange = x > 0 ? -1 : 0;
+        int maxXRange = x < width - 1 ? 1 : 0;
+        int minYRange = y > 0 ? -1 : 0;
+        int maxYRange = y < height - 1 ? 1 : 0;
+        int minZRange = z > 0 ? -1 : 0;
+        int maxZRange = z < depth - 1 ? 1 : 0;
+
+        for (int i = minXRange; i <= maxXRange; i++)
+            for (int j = minYRange; j <= maxYRange; j++)
+                for (int k = minZRange; k <= maxZRange; k++)
+                {
+                    if (i == 0 && j == 0 && k == 0) // Don't count ourselves
+                        continue;
+                    bool neighbourIsAlive = grid[x + i, y + j, z + k] != null;
+                    neighbours += neighbourIsAlive ? 1 : 0;
+                }
+
+        return neighbours;
+    }
+
+    public override void NextStep() => UpdateCells();
 
     public override void ResetCells()
     {
-        // TODO:
+        generation = 0;
+        StopSim();
+
+        foreach (GameObject cell in grid)
+            if (cell != null)
+                Destroy(cell);
+
+        Array.Clear(grid, 0, grid.Length);
+
+        GameOfLifeManager.instance.genText.text = $"Generation: {generation}";
     }
 
     private void ChangeCellState(Vector3Int cellPos)
@@ -66,8 +156,10 @@ public class GameOfLife3D : GameOfLife2D
         try
         {
             GameObject cell = grid[cellPos.x, cellPos.y, cellPos.z];
+            // If cell on selected position is dead, we create a new one
             if (cell == null)
                 CreateCell(cellPos);
+            // If cell on selected position  is alive, we destroy it
             else
                 DestroyCell(cellPos);
         }

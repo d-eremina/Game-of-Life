@@ -73,6 +73,7 @@ public class GameOfLifeManager : MonoBehaviour
     /// </summary>
     public void ChangeGameMode()
     {
+        StopSim();
         gameIs2D = !gameIs2D;
         game.gameObject.SetActive(false);
         if (gameIs2D)

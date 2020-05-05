@@ -8,10 +8,11 @@ public class GameOfLife2D : MonoBehaviour
     public Transform gameBoard;
     public Camera gameCamera;
 
-    public GameObject[,] grid;
+    [SerializeField]
+    private GameObject[,] grid;
 
-    public int width = 100;
-    public int height = 100;
+    private int width = 100;
+    private int height = 100;
 
     protected int generation = 0;
     protected bool isPlaying = false;
@@ -50,7 +51,7 @@ public class GameOfLife2D : MonoBehaviour
         }
     }
 
-    void UpdateCells()
+    protected virtual void UpdateCells()
     {
         generation++;
         List<Vector2Int> toBeAlive = new List<Vector2Int>();
@@ -87,18 +88,16 @@ public class GameOfLife2D : MonoBehaviour
     public virtual void NextStep() => UpdateCells();
 
     /// <summary>
-    /// Resets board
+    /// Resets 2D board
     /// </summary>
     public virtual void ResetCells()
     {
         generation = 0;
         StopSim();
 
-        for (int i = 0; i < width; i++)
-            for (int j = 0; j < height; j++)
-                if (grid[i, j] != null)
-                    DestroyCell(new Vector2Int(i, j));
-
+        foreach (GameObject cell in grid)
+            if (cell != null)
+                Destroy(cell);
         Array.Clear(grid, 0, grid.Length);
         GameOfLifeManager.instance.genText.text = $"Generation: {generation}";
     }
@@ -128,7 +127,13 @@ public class GameOfLife2D : MonoBehaviour
         GameOfLifeManager.instance.StepButton.SetActive(true);
     }
 
-    private int GetNeighbours(int x, int y)
+    /// <summary>
+    /// Counts number of alive neighbours of cell
+    /// </summary>
+    /// <param name="x">x-coordinate of cell</param>
+    /// <param name="y">y-coordinate of cell</param>
+    /// <returns>Number of alive nighbours</returns>
+    protected int GetNeighbours(int x, int y)
     {
         int neighbours = 0;
 
