@@ -58,6 +58,7 @@ public class GameOfLifeManager : MonoBehaviour
         gameIs2D = true;
         game2D.gameObject.SetActive(true);
         game3D.gameObject.SetActive(false);
+        game.TemperatureModeOn();
 
         instance.updateInterval = TimeSlider.value;
         updateIntervalText.text = "Update Iterval: " + Mathf.Round(instance.updateInterval * 1000.0f) + "ms";
@@ -129,7 +130,7 @@ public class GameOfLifeManager : MonoBehaviour
     public void ChangeTemperatureMode()
     {
         temperatureModeOn = !temperatureModeOn;
-
+        game.ResetCells();
         if (temperatureModeOn)
         {
             ColdColorButton.SetActive(true);
@@ -163,4 +164,9 @@ public class GameOfLifeManager : MonoBehaviour
         instance.updateInterval = slider.value;
         updateIntervalText.text = "Update Iterval: " + Mathf.Round(instance.updateInterval * 1000.0f) + "ms";
     }
+
+    // TODO: показывать в окошке текущий цвет или подсвечивать как-то кнопку
+    public void HotButtonClick() => game.SwitchToHot();
+    public void ColdButtonClick() => game.SwitchToCold();
+    public void WarmButtonClick() => game.SwitchToWarm();
 }

@@ -212,4 +212,10 @@ public class GameOfLife2D : MonoBehaviour
     public void TemperatureModeOff() => cellPrefab = aliveCellPrefab;
 
     public void TemperatureModeOn() => cellPrefab = hotCellPrefab;
+
+    public void SwitchToCold() => cellPrefab = coldCellPrefab;
+
+    public void SwitchToHot() => cellPrefab = hotCellPrefab;
+
+    public void SwitchToWarm() => cellPrefab = warmCellPrefab;
 }
