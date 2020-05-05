@@ -236,8 +236,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameBoard: {fileID: 156256544}
   gameCamera: {fileID: 957725504}
-  width: 100
-  height: 100
+  hotCellPrefab: {fileID: 423279148417801579, guid: b4d1335009e6f4ce7a9e634304398978,
+    type: 3}
+  warmCellPrefab: {fileID: 1629191373892847856, guid: 52d3be54353ae4b20aa07d9bd65734ae,
+    type: 3}
+  coldCellPrefab: {fileID: 8955694669581704543, guid: 8f86d19d36a6142669cedd77467a3cb3,
+    type: 3}
+  aliveCellPrefab: {fileID: 8820843599256148196, guid: 139713fbf94a04405adf28a0e7f6b9ab,
+    type: 3}
   cellPrefab: {fileID: 8820843599256148196, guid: 139713fbf94a04405adf28a0e7f6b9ab,
     type: 3}
 --- !u!1 &82758897
@@ -1010,7 +1016,18 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1202370375}
+        m_MethodName: ChangeTemperatureMode
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &321994088
 GameObject:
@@ -2554,17 +2571,21 @@ MonoBehaviour:
   StopButton: {fileID: 826546380}
   StepButton: {fileID: 82758897}
   ColdColorButton: {fileID: 182244453}
-  MediumColorButton: {fileID: 1148157795}
+  ColdText: {fileID: 2139049}
+  WarmColorButton: {fileID: 1148157795}
+  WarmText: {fileID: 2030722776}
   HotColorButton: {fileID: 1875170077}
-  currentColor: {r: 0, g: 0, b: 0, a: 1}
+  HotText: {fileID: 869996303}
+  TemperatureText: {fileID: 261742995}
+  TemperatureTogge: {fileID: 269109219}
   SwitchGameModeButton: {fileID: 1836774738}
   SwitchText: {fileID: 238745098}
-  TemperatureToggle: {fileID: 269109219}
   TimeSlider: {fileID: 1916146023}
   updateIntervalText: {fileID: 484032720}
   genText: {fileID: 2006244694}
   game2D: {fileID: 73510279}
   game3D: {fileID: 1322181882}
+  temperatureModeOn: 1
 --- !u!4 &1202370376
 Transform:
   m_ObjectHideFlags: 0
@@ -2697,12 +2718,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameBoard: {fileID: 951906564}
   gameCamera: {fileID: 1305473579}
-  width: 100
-  height: 100
+  hotCellPrefab: {fileID: 0}
+  warmCellPrefab: {fileID: 0}
+  coldCellPrefab: {fileID: 0}
+  aliveCellPrefab: {fileID: 0}
   cellPrefab: {fileID: 5164112446142871143, guid: 906e541b950f44dd8b447b41021f47ed,
     type: 3}
-  width3D: 24
-  height3D: 24
   depth: 24
   selectedCell: {fileID: 8211772521780239934, guid: 3260e1ee8a2184992abaf3f2daa3040d,
     type: 3}

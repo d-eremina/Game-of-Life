@@ -19,6 +19,19 @@ public class GameOfLife2D : MonoBehaviour
 
     protected float counter = 0f;
 
+    // For temperature mode
+    [SerializeField]
+    private GameObject hotCellPrefab;
+
+    [SerializeField]
+    private GameObject warmCellPrefab;
+
+    [SerializeField]
+    private GameObject coldCellPrefab;
+
+    [SerializeField]
+    private GameObject aliveCellPrefab;
+
     // All for cells working
     public GameObject cellPrefab;
 
@@ -195,4 +208,8 @@ public class GameOfLife2D : MonoBehaviour
             Destroy(deadCell);
         grid[cellPosition.x, cellPosition.y] = null;
     }
+
+    public void TemperatureModeOff() => cellPrefab = aliveCellPrefab;
+
+    public void TemperatureModeOn() => cellPrefab = hotCellPrefab;
 }

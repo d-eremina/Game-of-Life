@@ -10,18 +10,19 @@ public class GameOfLifeManager : MonoBehaviour
     public GameObject StopButton;
     public GameObject StepButton;
 
-    // Colors of 2D cells
+    // Everything for temperature
     public GameObject ColdColorButton;
-    public GameObject MediumColorButton;
+    public GameObject ColdText;
+    public GameObject WarmColorButton;
+    public GameObject WarmText;
     public GameObject HotColorButton;
-    public Color currentColor = Color.black;
+    public GameObject HotText;
+    public GameObject TemperatureText;
+    public GameObject TemperatureTogge;
 
     // Switch 2D to 3D and back
     public GameObject SwitchGameModeButton;
     public Text SwitchText;
-
-    // Changing between B&W and Temperature modes
-    public GameObject TemperatureToggle;
 
     // Update time
     public Slider TimeSlider;
@@ -40,6 +41,8 @@ public class GameOfLifeManager : MonoBehaviour
 
     // Checking which mode is currently playing
     protected bool gameIs2D;
+
+    public bool temperatureModeOn = true;
 
     public static GameOfLifeManager instance;
 
@@ -79,14 +82,76 @@ public class GameOfLifeManager : MonoBehaviour
         if (gameIs2D)
         {
             game = game2D;
+            TemperatureTogge.SetActive(true);
+            if (temperatureModeOn)
+            {
+                ColdColorButton.SetActive(true);
+                WarmColorButton.SetActive(true);
+                HotColorButton.SetActive(true);
+                HotText.SetActive(true);
+                ColdText.SetActive(true);
+                WarmText.SetActive(true);
+                TemperatureText.SetActive(true);
+                game.TemperatureModeOn();
+            }
+            else
+            {
+                ColdColorButton.SetActive(false);
+                WarmColorButton.SetActive(false);
+                HotColorButton.SetActive(false);
+                HotText.SetActive(false);
+                ColdText.SetActive(false);
+                WarmText.SetActive(false);
+                TemperatureText.SetActive(false);
+                game.TemperatureModeOff();
+            }
             SwitchText.text = "switch to 3D";
         }
         else
         {
             game = game3D;
+            ColdColorButton.SetActive(false);
+            WarmColorButton.SetActive(false);
+            HotColorButton.SetActive(false);
+            HotText.SetActive(false);
+            ColdText.SetActive(false);
+            WarmText.SetActive(false);
+            TemperatureText.SetActive(false);
+            TemperatureTogge.SetActive(false);
             SwitchText.text = "switch to 2D";
         }
         game.gameObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// Changes settings depending on temperature mode
+    /// </summary>
+    public void ChangeTemperatureMode()
+    {
+        temperatureModeOn = !temperatureModeOn;
+
+        if (temperatureModeOn)
+        {
+            ColdColorButton.SetActive(true);
+            WarmColorButton.SetActive(true);
+            HotColorButton.SetActive(true);
+            HotText.SetActive(true);
+            ColdText.SetActive(true);
+            WarmText.SetActive(true);
+            TemperatureText.SetActive(true);
+            game.TemperatureModeOn();
+        }
+        else
+        {
+            ColdColorButton.SetActive(false);
+            WarmColorButton.SetActive(false);
+            HotColorButton.SetActive(false);
+            HotText.SetActive(false);
+            ColdText.SetActive(false);
+            WarmText.SetActive(false);
+            TemperatureText.SetActive(false);
+            game.TemperatureModeOff();
+        }
     }
 
     /// <summary>
