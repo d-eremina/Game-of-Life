@@ -11,6 +11,9 @@ public class GameOfLife2D : MonoBehaviour
     [SerializeField]
     private GameObject[,] grid;
 
+    // For counting neighbours
+    private int[,] values;
+
     private int width = 100;
     private int height = 100;
 
@@ -35,9 +38,22 @@ public class GameOfLife2D : MonoBehaviour
     // All for cells working
     public GameObject cellPrefab;
 
+    // Different values for different colors
+    // Dead is 0
+    // Black is 1
+    // Cold is 2
+    // Warm is 3
+    // Hot is 4
+    private int currentValue = 3;
+
     private void Awake()
     {
         grid = new GameObject[width, height];
+        values = new int[width, height];
+        // Default: cells are dead
+        for (int i = 0; i < width; ++i)
+            for (int j = 0; j < height; ++j)
+                values[i, j] = 0;
     }
 
     // Update is called once per frame
@@ -67,34 +83,150 @@ public class GameOfLife2D : MonoBehaviour
     protected virtual void UpdateCells()
     {
         generation++;
-        List<Vector2Int> toBeAlive = new List<Vector2Int>();
-        List<Vector2Int> toBeDead = new List<Vector2Int>();
-
-        for (int i = 0; i < width; i++)
+        if (GameOfLifeManager.instance.temperatureModeOn)
         {
-            for (int j = 0; j < height; j++)
-            {
-                bool cellIsAlive = grid[i, j] != null;
-                int numNeighbours = GetNeighbours(i, j);
-                if (cellIsAlive)
+            List<Vector2Int> toBeHot = new List<Vector2Int>();
+            List<Vector2Int> toBeWarm = new List<Vector2Int>();
+            List<Vector2Int> toBeCold = new List<Vector2Int>();
+            List<Vector2Int> toBeDead = new List<Vector2Int>();
+                
+            for(int i = 0; i < width; ++i)
+                for(int j = 0; j < height; ++j)
                 {
-                    if (numNeighbours < 2 || numNeighbours > 3)
-                        toBeDead.Add(new Vector2Int(i, j));
-                }
-                else
-                {
-                    if (numNeighbours == 3)
-                        toBeAlive.Add(new Vector2Int(i, j));
-                }
-            }
-        }
-        foreach (Vector2Int cell in toBeAlive)
-            CreateCell(cell);
+                    int numNeighbours = GetNeighbours(i, j);
 
-        foreach (Vector2Int cell in toBeDead)
-            DestroyCell(cell);
+                    switch(values[i, j])
+                    {
+                        // Cel was cold
+                        case 2:
+                            // Gets warm if has enough neighbours
+                            if (numNeighbours > 3)
+                                toBeWarm.Add(new Vector2Int(i, j));
+                            // Dies if it is too cold
+                            if (numNeighbours < 2)
+                                toBeDead.Add(new Vector2Int(i, j));
+                            break;
+
+                        // Cel was warm
+                        case 3:
+                            // Gets hot if has enough neighbours
+                            if (numNeighbours > 3)
+                                toBeHot.Add(new Vector2Int(i, j));
+                            // Gets colder if it is not enough neighbours
+                            if (numNeighbours < 2)
+                                toBeCold.Add(new Vector2Int(i, j));
+                            break;
+
+                        // Cel was hot
+                        case 4:
+                            // Cell dies if it is too hot
+                            if (numNeighbours > 3)
+                                toBeDead.Add(new Vector2Int(i, j));
+                            // Gets colder if it is not enough neighbours
+                            if (numNeighbours < 2)
+                                toBeWarm.Add(new Vector2Int(i, j));
+                            break;
+
+                        // Cell was dead
+                        case 0:
+                            if (numNeighbours == 3)
+                                toBeCold.Add(new Vector2Int(i, j));
+                            break;
+
+                        default: throw new ArgumentException("Something went wrong: cell has incorrect value");
+                    }
+                }
+
+            // To save user's choice
+            int lastpos = currentValue;
+
+            // Updating
+
+            foreach (var cell in toBeDead)
+                DestroyCell(cell);
+
+            SwitchToCold();
+            foreach (var cell in toBeCold)
+                CreateCell(cell);
+
+            SwitchToWarm();
+            foreach (var cell in toBeWarm)
+                CreateCell(cell);
+
+            SwitchToHot();
+            foreach (var cell in toBeHot)
+                CreateCell(cell);
+
+
+
+            if (lastpos == 2)
+                SwitchToCold();
+            if (lastpos == 3)
+                SwitchToWarm();
+            if (lastpos == 4)
+                SwitchToHot();
+        }
+        else
+        {
+            List<Vector2Int> toBeAlive = new List<Vector2Int>();
+            List<Vector2Int> toBeDead = new List<Vector2Int>();
+
+            for (int i = 0; i < width; i++)
+                for (int j = 0; j < height; j++)
+                {
+                    bool cellIsAlive = grid[i, j] != null;
+                    int numNeighbours = GetNeighbours(i, j);
+                    if (cellIsAlive)
+                    {
+                        if (numNeighbours < 2 || numNeighbours > 3)
+                            toBeDead.Add(new Vector2Int(i, j));
+                    }
+                    else
+                    {
+                        if (numNeighbours == 3)
+                            toBeAlive.Add(new Vector2Int(i, j));
+                    }
+                }
+
+            foreach (Vector2Int cell in toBeAlive)
+                CreateCell(cell);
+
+            foreach (Vector2Int cell in toBeDead)
+                DestroyCell(cell);
+        }
+        
 
         GameOfLifeManager.instance.genText.text = $"Generation: {generation}";
+    }
+
+    /// <summary>
+    /// Counts number of alive neighbours of cell
+    /// </summary>
+    /// <param name="x">x-coordinate of cell</param>
+    /// <param name="y">y-coordinate of cell</param>
+    /// <returns>Number of alive nighbours</returns>
+    protected int GetNeighbours(int x, int y)
+    {
+        int neighbours = 0;
+
+        int minXRange = x > 0 ? -1 : 0;
+        int maxXRange = x < width - 1 ? 1 : 0;
+        int minYRange = y > 0 ? -1 : 0;
+        int maxYRange = y < height - 1 ? 1 : 0;
+
+        for (int i = minXRange; i <= maxXRange; i++)
+        {
+            for (int j = minYRange; j <= maxYRange; j++)
+            {
+                if (i == 0 && j == 0) // Don't count ourselves
+                    continue;
+                // From warmer to colder
+                if (values[x + i, y + j] >= values[x, y] && values[x + i, y + j] != 0)
+                    neighbours++;
+            }
+        }
+
+        return neighbours;
     }
 
     // Method for one-step updating
@@ -111,7 +243,9 @@ public class GameOfLife2D : MonoBehaviour
         foreach (GameObject cell in grid)
             if (cell != null)
                 Destroy(cell);
+
         Array.Clear(grid, 0, grid.Length);
+        Array.Clear(values, 0, values.Length);
         GameOfLifeManager.instance.genText.text = $"Generation: {generation}";
     }
 
@@ -140,35 +274,6 @@ public class GameOfLife2D : MonoBehaviour
         GameOfLifeManager.instance.StepButton.SetActive(true);
     }
 
-    /// <summary>
-    /// Counts number of alive neighbours of cell
-    /// </summary>
-    /// <param name="x">x-coordinate of cell</param>
-    /// <param name="y">y-coordinate of cell</param>
-    /// <returns>Number of alive nighbours</returns>
-    protected int GetNeighbours(int x, int y)
-    {
-        int neighbours = 0;
-
-        int minXRange = x > 0 ? -1 : 0;
-        int maxXRange = x < width - 1 ? 1 : 0;
-        int minYRange = y > 0 ? -1 : 0;
-        int maxYRange = y < height - 1 ? 1 : 0;
-
-        for (int i = minXRange; i <= maxXRange; i++)
-        {
-            for (int j = minYRange; j <= maxYRange; j++)
-            {
-                if (i == 0 && j == 0) // Don't count ourselves
-                    continue;
-                bool neighbourIsAlive = grid[x + i, y + j] != null;
-                neighbours += neighbourIsAlive ? 1 : 0;
-            }
-        }
-
-        return neighbours;
-    }
-
     private void UpdateMaterial(Vector2Int cellPosition)
     {
         try
@@ -191,10 +296,13 @@ public class GameOfLife2D : MonoBehaviour
     /// <param name="cellPosition">Cell's position</param>
     private void CreateCell(Vector2Int cellPosition)
     {
+        if (grid[cellPosition.x, cellPosition.y] != null)
+            DestroyCell(cellPosition);
         GameObject newCell = Instantiate(cellPrefab);
         newCell.transform.SetParent(gameBoard);
         newCell.transform.position = cellPosition + new Vector2(0.5f, 0.5f);
         grid[cellPosition.x, cellPosition.y] = newCell;
+        values[cellPosition.x, cellPosition.y] = currentValue;
     }
 
     /// <summary>
@@ -207,15 +315,32 @@ public class GameOfLife2D : MonoBehaviour
         if (deadCell != null)
             Destroy(deadCell);
         grid[cellPosition.x, cellPosition.y] = null;
+        values[cellPosition.x, cellPosition.y] = 0;
     }
 
-    public void TemperatureModeOff() => cellPrefab = aliveCellPrefab;
+    public void TemperatureModeOff() {
+        cellPrefab = aliveCellPrefab;
+        currentValue = 1;
+    }
 
-    public void TemperatureModeOn() => cellPrefab = hotCellPrefab;
+    public void TemperatureModeOn() {
+        cellPrefab = hotCellPrefab;
+        currentValue = 4;
+    }
 
-    public void SwitchToCold() => cellPrefab = coldCellPrefab;
+    public void SwitchToCold() {
+        cellPrefab = coldCellPrefab;
+        currentValue = 2;
+    }
 
-    public void SwitchToHot() => cellPrefab = hotCellPrefab;
+    public void SwitchToWarm()
+    {
+        cellPrefab = warmCellPrefab;
+        currentValue = 3;
+    }
 
-    public void SwitchToWarm() => cellPrefab = warmCellPrefab;
+    public void SwitchToHot() {
+        cellPrefab = hotCellPrefab;
+        currentValue = 4;
+    }
 }
