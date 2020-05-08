@@ -157,8 +157,6 @@ public class GameOfLife2D : MonoBehaviour
             foreach (var cell in toBeHot)
                 CreateCell(cell);
 
-
-
             if (lastpos == 2)
                 SwitchToCold();
             if (lastpos == 3)
@@ -298,6 +296,7 @@ public class GameOfLife2D : MonoBehaviour
     {
         if (grid[cellPosition.x, cellPosition.y] != null)
             DestroyCell(cellPosition);
+
         GameObject newCell = Instantiate(cellPrefab);
         newCell.transform.SetParent(gameBoard);
         newCell.transform.position = cellPosition + new Vector2(0.5f, 0.5f);
@@ -342,5 +341,100 @@ public class GameOfLife2D : MonoBehaviour
     public void SwitchToHot() {
         cellPrefab = hotCellPrefab;
         currentValue = 4;
+    }
+
+    public void Pattern1Click()
+    {
+        ResetCells();
+        SwitchToHot();
+
+        int middle = 50;
+
+        for(int i = -3; i <= 3; ++i)
+        {
+            CreateCell(new Vector2Int(middle, middle + i));
+            CreateCell(new Vector2Int(middle + i, middle));
+        }
+
+        SwitchToWarm();
+
+        CreateCell(new Vector2Int(middle - 1, middle + 1));
+        CreateCell(new Vector2Int(middle - 1, middle + 2));
+        CreateCell(new Vector2Int(middle - 2, middle + 1));
+
+        CreateCell(new Vector2Int(middle + 1, middle + 1));
+        CreateCell(new Vector2Int(middle + 1, middle + 2));
+        CreateCell(new Vector2Int(middle + 2, middle + 1));
+
+        CreateCell(new Vector2Int(middle - 1, middle - 1));
+        CreateCell(new Vector2Int(middle - 1, middle - 2));
+        CreateCell(new Vector2Int(middle - 2, middle - 1));
+
+        CreateCell(new Vector2Int(middle + 1, middle - 1));
+        CreateCell(new Vector2Int(middle + 1, middle - 2));
+        CreateCell(new Vector2Int(middle + 2, middle - 1));
+    }
+
+    public void Pattern2Click()
+    {
+        ResetCells();
+
+        int middle = 50;
+        SwitchToCold();
+
+        CreateCell(new Vector2Int(middle - 1, middle));
+        CreateCell(new Vector2Int(middle - 1, middle - 1));
+        CreateCell(new Vector2Int(middle, middle));
+        CreateCell(new Vector2Int(middle, middle - 1));
+
+        SwitchToWarm();
+        for(int j = -2; j <= 1; ++j)
+        {
+            CreateCell(new Vector2Int(middle - 2, middle + j));
+            CreateCell(new Vector2Int(middle + 1, middle + j));
+        }
+        for(int j = -2; j <= 1; ++j)
+        {
+            CreateCell(new Vector2Int(middle + j, middle - 2));
+            CreateCell(new Vector2Int(middle + j, middle + 1));
+        }
+
+        SwitchToHot();
+        for (int j = -3; j <= 2; ++j)
+        {
+            CreateCell(new Vector2Int(middle - 3, middle + j));
+            CreateCell(new Vector2Int(middle + 2, middle + j));
+        }
+        for (int j = -3; j <= 2; ++j)
+        {
+            CreateCell(new Vector2Int(middle + j, middle - 3));
+            CreateCell(new Vector2Int(middle + j, middle + 2));
+        }
+    }
+
+    public void Pattern3Click()
+    {
+        ResetCells();
+        SwitchToHot();
+
+        int middle = 50;
+
+        CreateCell(new Vector2Int(middle, middle - 1));
+        CreateCell(new Vector2Int(middle, middle - 2));
+        CreateCell(new Vector2Int(middle, middle - 3));
+        CreateCell(new Vector2Int(middle + 1, middle - 3));
+        CreateCell(new Vector2Int(middle + 2, middle - 3));
+        CreateCell(new Vector2Int(middle + 2, middle - 2));
+        CreateCell(new Vector2Int(middle + 2, middle - 1));
+        CreateCell(new Vector2Int(middle + 1, middle - 1));
+
+        CreateCell(new Vector2Int(middle - 1, middle));
+        CreateCell(new Vector2Int(middle - 2, middle));
+        CreateCell(new Vector2Int(middle - 3, middle));
+        CreateCell(new Vector2Int(middle - 3, middle + 1));
+        CreateCell(new Vector2Int(middle - 3, middle + 2));
+        CreateCell(new Vector2Int(middle - 2, middle + 2));
+        CreateCell(new Vector2Int(middle - 1, middle + 2));
+        CreateCell(new Vector2Int(middle - 1, middle + 1));
     }
 }

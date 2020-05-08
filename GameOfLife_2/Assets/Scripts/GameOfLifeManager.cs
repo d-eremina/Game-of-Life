@@ -24,6 +24,9 @@ public class GameOfLifeManager : MonoBehaviour
     public GameObject SwitchGameModeButton;
     public Text SwitchText;
 
+    public GameObject TemperaturePatternPanel;
+    public GameObject Scrollbar;
+
     // Update time
     public Slider TimeSlider;
     public Text updateIntervalText;
@@ -93,6 +96,8 @@ public class GameOfLifeManager : MonoBehaviour
                 ColdText.SetActive(true);
                 WarmText.SetActive(true);
                 TemperatureText.SetActive(true);
+                TemperaturePatternPanel.SetActive(true);
+                Scrollbar.SetActive(true);
                 game.TemperatureModeOn();
             }
             else
@@ -119,6 +124,8 @@ public class GameOfLifeManager : MonoBehaviour
             WarmText.SetActive(false);
             TemperatureText.SetActive(false);
             TemperatureTogge.SetActive(false);
+            TemperaturePatternPanel.SetActive(false);
+            Scrollbar.SetActive(false);
             SwitchText.text = "switch to 2D";
         }
         game.gameObject.SetActive(true);
@@ -140,6 +147,8 @@ public class GameOfLifeManager : MonoBehaviour
             ColdText.SetActive(true);
             WarmText.SetActive(true);
             TemperatureText.SetActive(true);
+            TemperaturePatternPanel.SetActive(true);
+            Scrollbar.SetActive(true);
             game.TemperatureModeOn();
         }
         else
@@ -151,6 +160,9 @@ public class GameOfLifeManager : MonoBehaviour
             ColdText.SetActive(false);
             WarmText.SetActive(false);
             TemperatureText.SetActive(false);
+            TemperaturePatternPanel.SetActive(false);
+            // ! 
+            Scrollbar.SetActive(false);
             game.TemperatureModeOff();
         }
     }
@@ -169,4 +181,8 @@ public class GameOfLifeManager : MonoBehaviour
     public void HotButtonClick() => game.SwitchToHot();
     public void ColdButtonClick() => game.SwitchToCold();
     public void WarmButtonClick() => game.SwitchToWarm();
+
+    public void Pattern1ButtonClick() => game.Pattern1Click();
+    public void Pattern2ButtonClick() => game.Pattern2Click();
+    public void Pattern3ButtonClick() => game.Pattern3Click();
 }
