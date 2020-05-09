@@ -89,13 +89,13 @@ public class GameOfLife2D : MonoBehaviour
             List<Vector2Int> toBeWarm = new List<Vector2Int>();
             List<Vector2Int> toBeCold = new List<Vector2Int>();
             List<Vector2Int> toBeDead = new List<Vector2Int>();
-                
-            for(int i = 0; i < width; ++i)
-                for(int j = 0; j < height; ++j)
+
+            for (int i = 0; i < width; ++i)
+                for (int j = 0; j < height; ++j)
                 {
                     int numNeighbours = GetNeighbours(i, j);
 
-                    switch(values[i, j])
+                    switch (values[i, j])
                     {
                         // Cel was cold
                         case 2:
@@ -192,7 +192,7 @@ public class GameOfLife2D : MonoBehaviour
             foreach (Vector2Int cell in toBeDead)
                 DestroyCell(cell);
         }
-        
+
 
         GameOfLifeManager.instance.genText.text = $"Generation: {generation}";
     }
@@ -317,17 +317,20 @@ public class GameOfLife2D : MonoBehaviour
         values[cellPosition.x, cellPosition.y] = 0;
     }
 
-    public void TemperatureModeOff() {
+    public void TemperatureModeOff()
+    {
         cellPrefab = aliveCellPrefab;
         currentValue = 1;
     }
 
-    public void TemperatureModeOn() {
+    public void TemperatureModeOn()
+    {
         cellPrefab = hotCellPrefab;
         currentValue = 4;
     }
 
-    public void SwitchToCold() {
+    public void SwitchToCold()
+    {
         cellPrefab = coldCellPrefab;
         currentValue = 2;
     }
@@ -338,11 +341,13 @@ public class GameOfLife2D : MonoBehaviour
         currentValue = 3;
     }
 
-    public void SwitchToHot() {
+    public void SwitchToHot()
+    {
         cellPrefab = hotCellPrefab;
         currentValue = 4;
     }
 
+    #region Temperature Patterns
     public void Pattern1Click()
     {
         ResetCells();
@@ -350,7 +355,7 @@ public class GameOfLife2D : MonoBehaviour
 
         int middle = 50;
 
-        for(int i = -3; i <= 3; ++i)
+        for (int i = -3; i <= 3; ++i)
         {
             CreateCell(new Vector2Int(middle, middle + i));
             CreateCell(new Vector2Int(middle + i, middle));
@@ -388,12 +393,12 @@ public class GameOfLife2D : MonoBehaviour
         CreateCell(new Vector2Int(middle, middle - 1));
 
         SwitchToWarm();
-        for(int j = -2; j <= 1; ++j)
+        for (int j = -2; j <= 1; ++j)
         {
             CreateCell(new Vector2Int(middle - 2, middle + j));
             CreateCell(new Vector2Int(middle + 1, middle + j));
         }
-        for(int j = -2; j <= 1; ++j)
+        for (int j = -2; j <= 1; ++j)
         {
             CreateCell(new Vector2Int(middle + j, middle - 2));
             CreateCell(new Vector2Int(middle + j, middle + 1));
@@ -437,4 +442,247 @@ public class GameOfLife2D : MonoBehaviour
         CreateCell(new Vector2Int(middle - 1, middle + 2));
         CreateCell(new Vector2Int(middle - 1, middle + 1));
     }
+    #endregion
+
+    #region BW Mode Patterns
+
+    public void BWPattern1Click()
+    {
+        ResetCells();
+
+        CreateCell(new Vector2Int(1, height - 4));
+        CreateCell(new Vector2Int(2, height - 4));
+        CreateCell(new Vector2Int(3, height - 4));
+        CreateCell(new Vector2Int(3, height - 3));
+        CreateCell(new Vector2Int(2, height - 2));
+    }
+
+    public void BWPattern2Click()
+    {
+        ResetCells();
+        int middle = 50;
+
+        for (int i = -6; i <= 5; ++i)
+            CreateCell(new Vector2Int(middle + i, middle));
+        for (int i = -4; i <= 3; ++i)
+        {
+            CreateCell(new Vector2Int(middle + i, middle + 2));
+            CreateCell(new Vector2Int(middle + i, middle - 2));
+        }
+        for (int i = -2; i <= 1; ++i)
+        {
+            CreateCell(new Vector2Int(middle + i, middle + 4));
+            CreateCell(new Vector2Int(middle + i, middle - 4));
+        }
+    }
+
+    public void BWPattern3Click()
+    {
+        ResetCells();
+
+        int middle = 50;
+
+        CreateCell(new Vector2Int(1, middle - 1));
+        CreateCell(new Vector2Int(1, middle + 1));
+
+        CreateCell(new Vector2Int(3, middle - 2));
+        CreateCell(new Vector2Int(4, middle - 2));
+
+        CreateCell(new Vector2Int(6, middle - 1));
+
+        CreateCell(new Vector2Int(7, middle));
+        CreateCell(new Vector2Int(7, middle + 1));
+
+        for (int i = 0; i <= 5; ++i)
+            CreateCell(new Vector2Int(2 + i, middle + 2));
+    }
+
+    public void BWPattern4Click()
+    {
+        ResetCells();
+
+        // for borders
+        int leftStart = 5;
+        int upper = 10;
+
+        CreateCell(new Vector2Int(leftStart + 1, 93 - upper));
+        CreateCell(new Vector2Int(leftStart + 1, 92 - upper));
+        CreateCell(new Vector2Int(leftStart + 2, 93 - upper));
+        CreateCell(new Vector2Int(leftStart + 2, 92 - upper));
+
+        CreateCell(new Vector2Int(leftStart + 12, 92 - upper));
+        CreateCell(new Vector2Int(leftStart + 12, 93 - upper));
+        CreateCell(new Vector2Int(leftStart + 12, 94 - upper));
+
+        CreateCell(new Vector2Int(leftStart + 13, 95 - upper));
+        CreateCell(new Vector2Int(leftStart + 14, 96 - upper));
+        CreateCell(new Vector2Int(leftStart + 15, 95 - upper));
+
+        CreateCell(new Vector2Int(leftStart + 16, 92 - upper));
+        CreateCell(new Vector2Int(leftStart + 16, 93 - upper));
+        CreateCell(new Vector2Int(leftStart + 16, 94 - upper));
+        CreateCell(new Vector2Int(leftStart + 17, 92 - upper));
+        CreateCell(new Vector2Int(leftStart + 17, 93 - upper));
+        CreateCell(new Vector2Int(leftStart + 17, 94 - upper));
+
+        CreateCell(new Vector2Int(leftStart + 13, 91 - upper));
+        CreateCell(new Vector2Int(leftStart + 14, 90 - upper));
+        CreateCell(new Vector2Int(leftStart + 15, 91 - upper));
+
+        CreateCell(new Vector2Int(leftStart + 22, 94 - upper));
+        CreateCell(new Vector2Int(leftStart + 22, 95 - upper));
+        CreateCell(new Vector2Int(leftStart + 22, 96 - upper));
+
+        CreateCell(new Vector2Int(leftStart + 23, 94 - upper));
+        CreateCell(new Vector2Int(leftStart + 24, 94 - upper));
+        CreateCell(new Vector2Int(leftStart + 25, 94 - upper));
+        CreateCell(new Vector2Int(leftStart + 23, 96 - upper));
+        CreateCell(new Vector2Int(leftStart + 24, 96 - upper));
+        CreateCell(new Vector2Int(leftStart + 25, 96 - upper));
+
+        CreateCell(new Vector2Int(leftStart + 25, 95 - upper));
+
+        CreateCell(new Vector2Int(leftStart + 23, 97 - upper));
+        CreateCell(new Vector2Int(leftStart + 24, 97 - upper));
+        CreateCell(new Vector2Int(leftStart + 25, 97 - upper));
+        CreateCell(new Vector2Int(leftStart + 26, 97 - upper));
+
+        CreateCell(new Vector2Int(leftStart + 23, 93 - upper));
+        CreateCell(new Vector2Int(leftStart + 24, 93 - upper));
+        CreateCell(new Vector2Int(leftStart + 25, 93 - upper));
+        CreateCell(new Vector2Int(leftStart + 26, 93 - upper));
+
+        CreateCell(new Vector2Int(leftStart + 26, 98 - upper));
+        CreateCell(new Vector2Int(leftStart + 26, 92 - upper));
+
+        CreateCell(new Vector2Int(leftStart + 31, 97 - upper));
+        CreateCell(new Vector2Int(leftStart + 31, 96 - upper));
+
+        CreateCell(new Vector2Int(leftStart + 35, 95 - upper));
+        CreateCell(new Vector2Int(leftStart + 36, 95 - upper));
+        CreateCell(new Vector2Int(leftStart + 35, 94 - upper));
+        CreateCell(new Vector2Int(leftStart + 36, 94 - upper));
+    }
+
+    public void BWPattern5Click()
+    {
+        ResetCells();
+
+        int middle = 50;
+
+        for (int i = -2; i <= 2; ++i)
+        {
+            CreateCell(new Vector2Int(middle - 2, middle + i));
+            CreateCell(new Vector2Int(middle + 2, middle + i));
+        }
+
+        CreateCell(new Vector2Int(middle, middle - 2));
+        CreateCell(new Vector2Int(middle, middle + 2));
+    }
+
+    public void BWPattern6Click()
+    {
+        ResetCells();
+
+        int middle = 50;
+
+        for (int i = -2; i <= 2; ++i)
+        {
+            CreateCell(new Vector2Int(middle - 1, middle + i));
+            CreateCell(new Vector2Int(middle + 1, middle + i));
+        }
+
+        for (int i = 0; i <= 1; ++i)
+        {
+            CreateCell(new Vector2Int(middle - (int)Math.Pow(-1, i) * 2, middle + 2));
+            CreateCell(new Vector2Int(middle - (int)Math.Pow(-1, i) * 2, middle + 1));
+            CreateCell(new Vector2Int(middle - (int)Math.Pow(-1, i) * 2, middle - 3));
+            CreateCell(new Vector2Int(middle - (int)Math.Pow(-1, i) * 3, middle - 3));
+            CreateCell(new Vector2Int(middle - (int)Math.Pow(-1, i) * 3, middle - 2));
+            CreateCell(new Vector2Int(middle - (int)Math.Pow(-1, i) * 3, middle - 1));
+        }
+    }
+
+    public void BWPattern7Click()
+    {
+        ResetCells();
+
+        int middle = 49;
+
+        CreateCell(new Vector2Int(middle, middle));
+        CreateCell(new Vector2Int(middle + 1, middle));
+        CreateCell(new Vector2Int(middle + 1, middle + 1));
+        CreateCell(new Vector2Int(middle + 2, middle + 2));
+        CreateCell(new Vector2Int(middle + 3, middle + 1));
+        CreateCell(new Vector2Int(middle + 3, middle));
+        CreateCell(new Vector2Int(middle + 4, middle));
+
+        CreateCell(new Vector2Int(middle + 7, middle));
+        CreateCell(new Vector2Int(middle + 6, middle + 1));
+        CreateCell(new Vector2Int(middle + 7, middle + 2));
+        CreateCell(new Vector2Int(middle + 8, middle + 2));
+        CreateCell(new Vector2Int(middle + 8, middle + 1));
+        CreateCell(new Vector2Int(middle + 8, middle - 1));
+        CreateCell(new Vector2Int(middle + 9, middle - 1));
+        CreateCell(new Vector2Int(middle + 10, middle - 1));
+        CreateCell(new Vector2Int(middle + 10, middle - 2));
+
+        CreateCell(new Vector2Int(middle + 7, middle + 4));
+        CreateCell(new Vector2Int(middle + 8, middle + 4));
+        CreateCell(new Vector2Int(middle + 8, middle + 5));
+        CreateCell(new Vector2Int(middle + 7, middle + 6));
+        CreateCell(new Vector2Int(middle + 7, middle + 7));
+        CreateCell(new Vector2Int(middle + 8, middle + 7));
+
+        CreateCell(new Vector2Int(middle, middle + 6));
+        CreateCell(new Vector2Int(middle + 1, middle + 7));
+        CreateCell(new Vector2Int(middle + 1, middle + 8));
+        CreateCell(new Vector2Int(middle + 1, middle + 9));
+        CreateCell(new Vector2Int(middle + 2, middle + 9));
+        CreateCell(new Vector2Int(middle - 1, middle + 5));
+        CreateCell(new Vector2Int(middle - 2, middle + 6));
+        CreateCell(new Vector2Int(middle - 2, middle + 7));
+        CreateCell(new Vector2Int(middle - 1, middle + 7));
+        CreateCell(new Vector2Int(middle - 4, middle + 7));
+        CreateCell(new Vector2Int(middle - 5, middle + 7));
+        CreateCell(new Vector2Int(middle - 4, middle + 6));
+        CreateCell(new Vector2Int(middle - 2, middle + 6));
+        CreateCell(new Vector2Int(middle - 6, middle + 6));
+        CreateCell(new Vector2Int(middle - 7, middle + 6));
+        CreateCell(new Vector2Int(middle - 7, middle + 7));
+        CreateCell(new Vector2Int(middle - 1, middle + 7));
+
+        CreateCell(new Vector2Int(middle - 7, middle));
+        CreateCell(new Vector2Int(middle - 8, middle));
+        CreateCell(new Vector2Int(middle - 9, middle));
+        CreateCell(new Vector2Int(middle - 9, middle + 1));
+        CreateCell(new Vector2Int(middle - 6, middle - 1));
+        CreateCell(new Vector2Int(middle - 7, middle - 2));
+        CreateCell(new Vector2Int(middle - 5, middle - 2));
+        CreateCell(new Vector2Int(middle - 7, middle - 3));
+        CreateCell(new Vector2Int(middle - 6, middle - 3));
+        CreateCell(new Vector2Int(middle - 6, middle - 5));
+        CreateCell(new Vector2Int(middle - 7, middle - 5));
+        CreateCell(new Vector2Int(middle - 7, middle - 6));
+        CreateCell(new Vector2Int(middle - 6, middle - 7));
+        CreateCell(new Vector2Int(middle - 6, middle - 8));
+        CreateCell(new Vector2Int(middle - 7, middle - 8));
+
+        CreateCell(new Vector2Int(middle, middle - 8));
+        CreateCell(new Vector2Int(middle, middle - 9));
+        CreateCell(new Vector2Int(middle, middle - 10));
+        CreateCell(new Vector2Int(middle - 1, middle - 10));
+        CreateCell(new Vector2Int(middle + 1, middle - 7));
+        CreateCell(new Vector2Int(middle + 2, middle - 6));
+        CreateCell(new Vector2Int(middle + 3, middle - 7));
+        CreateCell(new Vector2Int(middle + 3, middle - 8));
+        CreateCell(new Vector2Int(middle + 2, middle - 8));
+        CreateCell(new Vector2Int(middle + 5, middle - 8));
+        CreateCell(new Vector2Int(middle + 6, middle - 8));
+        CreateCell(new Vector2Int(middle + 5, middle - 7));
+        CreateCell(new Vector2Int(middle + 7, middle - 7));
+        CreateCell(new Vector2Int(middle + 8, middle - 7));
+        CreateCell(new Vector2Int(middle + 8, middle - 8));
+    }
+    #endregion
 }
