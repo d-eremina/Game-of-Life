@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameOfLifeManager : MonoBehaviour
 {
@@ -195,7 +194,8 @@ public class GameOfLifeManager : MonoBehaviour
         updateIntervalText.text = "Update Iterval: " + Mathf.Round(instance.updateInterval * 1000.0f) + "ms";
     }
 
-    // TODO: показывать в окошке текущий цвет или подсвечивать как-то кнопку
+    public void LoadMenu() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+
     public void HotButtonClick() => game.SwitchToHot();
     public void ColdButtonClick() => game.SwitchToCold();
     public void WarmButtonClick() => game.SwitchToWarm();
