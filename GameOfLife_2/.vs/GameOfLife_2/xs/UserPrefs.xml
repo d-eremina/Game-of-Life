@@ -1,10 +1,11 @@
 ﻿<Properties StartupConfiguration="{69CBA3D7-512A-0225-86E4-6EF6655F75B6}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameOfLifeManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/MenuScript.cs">
     <Files>
-      <File FileName="Assets/Scripts/GameOfLifeManager.cs" Line="164" Column="1" />
-      <File FileName="Assets/Scripts/GameOfLife2D.cs" />
-      <File FileName="Assets/Scripts/GameOflife3D.cs" />
+      <File FileName="Assets/Scripts/GameOfLifeManager.cs" Line="214" Column="2" />
+      <File FileName="Assets/Scripts/GameOfLife2D.cs" Line="652" Column="57" />
+      <File FileName="Assets/Scripts/GameOflife3D.cs" Line="10" Column="1" />
       <File FileName="Assets/Scripts/CameraMovement.cs" />
+      <File FileName="Assets/Scripts/MenuScript.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -12,7 +13,7 @@
           <Node name="GameOfLife_2" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="GameOfLifeManager.cs" selected="True" />
+                <Node name="MenuScript.cs" selected="True" />
               </Node>
             </Node>
           </Node>

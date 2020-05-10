@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\GameOfLife2D.cs" />
     <Compile Include="Assets\Scripts\GameOfLife3D.cs" />
     <Compile Include="Assets\Scripts\GameOfLifeManager.cs" />
+    <Compile Include="Assets\Scripts\MenuScript.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>/Users/dariaeremina/GameOfLifeSecondVersion/GameOfLife_2/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
