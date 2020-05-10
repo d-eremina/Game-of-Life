@@ -52,6 +52,7 @@ public class GameOfLife3D : GameOfLife2D
             // Don't show prefab if user is out of borders
             else
                 selectedCell.SetActive(false);
+
             // For creating new cell
             bool mouseClicked = Input.GetMouseButtonDown(0);
             if (mouseClicked)
@@ -77,28 +78,21 @@ public class GameOfLife3D : GameOfLife2D
                     if (cellIsAlive)
                     {
                         if (numNeighbours < 7 || numNeighbours > 12)
-                        {
                             toBeDead.Add(new Vector3Int(i, j, k));
-                        }
                     }
                     else
                     {
                         if (numNeighbours >= 10 && numNeighbours <= 12)
-                        {
                             toBeAlive.Add(new Vector3Int(i, j, k));
-                        }
                     }
                 }
             }
         }
+
         foreach (Vector3Int cell in toBeAlive)
-        {
             CreateCell(cell);
-        }
         foreach (Vector3Int cell in toBeDead)
-        {
             DestroyCell(cell);
-        }
 
         GameOfLifeManager.instance.genText.text = $"Generation: {generation}";
     }
