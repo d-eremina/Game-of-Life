@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,15 +13,19 @@ public class GameOfLife2D : MonoBehaviour
     // For counting neighbours
     private int[,] values;
 
+    // Grid's size
     private int width = 100;
     private int height = 100;
 
     protected int generation = 0;
     protected bool isPlaying = false;
 
+    // For counting elapsed time
     protected float counter = 0f;
 
-    // For temperature mode
+
+    // Prefabs for different cell's states
+
     [SerializeField]
     private GameObject hotCellPrefab;
 
@@ -35,22 +38,17 @@ public class GameOfLife2D : MonoBehaviour
     [SerializeField]
     private GameObject aliveCellPrefab;
 
-    // All for cells working
+    // Current cell prefab
     public GameObject cellPrefab;
 
-    // Different values for different colors
-    // Dead is 0
-    // Black is 1
-    // Cold is 2
-    // Warm is 3
-    // Hot is 4
+    // Saves value to count nighbours later
     private int currentValue = 3;
 
     private void Awake()
     {
         grid = new GameObject[width, height];
         values = new int[width, height];
-        // Default: cells are dead
+        // By default cells are dead
         for (int i = 0; i < width; ++i)
             for (int j = 0; j < height; ++j)
                 values[i, j] = 0;
@@ -59,18 +57,22 @@ public class GameOfLife2D : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // If game is not paused, elapsed time increases
         if (isPlaying)
         {
             counter += Time.deltaTime;
+            // If elapsed time is more or equals update time, grid updates
             if (counter >= GameOfLifeManager.instance.TimeSlider.value)
             {
                 counter = 0.0f;
                 UpdateCells();
             }
         }
+        // If game is paused, player can input new cell or remove it from grid
         else
         {
             bool mouseClicked = Input.GetMouseButtonDown(0);
+            // If player clicked on grid, cell's material updates
             if (mouseClicked)
             {
                 Vector2 pos = gameCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -80,24 +82,32 @@ public class GameOfLife2D : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates cell's grid
+    /// </summary>
     protected virtual void UpdateCells()
     {
         generation++;
+
+        // Updating depends on current game mode
         if (GameOfLifeManager.instance.temperatureModeOn)
         {
+            // Saves coordinates of cells for update 
             List<Vector2Int> toBeHot = new List<Vector2Int>();
             List<Vector2Int> toBeWarm = new List<Vector2Int>();
             List<Vector2Int> toBeCold = new List<Vector2Int>();
             List<Vector2Int> toBeDead = new List<Vector2Int>();
 
+            // Going through the grid
             for (int i = 0; i < width; ++i)
                 for (int j = 0; j < height; ++j)
                 {
+                    // Number of neighbours of current cell
                     int numNeighbours = GetNeighbours(i, j);
 
                     switch (values[i, j])
                     {
-                        // Cel was cold
+                        // If cell was cold
                         case 2:
                             // Gets warm if has enough neighbours
                             if (numNeighbours > 3)
@@ -107,7 +117,7 @@ public class GameOfLife2D : MonoBehaviour
                                 toBeDead.Add(new Vector2Int(i, j));
                             break;
 
-                        // Cel was warm
+                        // If cell was warm
                         case 3:
                             // Gets hot if has enough neighbours
                             if (numNeighbours > 3)
@@ -117,7 +127,7 @@ public class GameOfLife2D : MonoBehaviour
                                 toBeCold.Add(new Vector2Int(i, j));
                             break;
 
-                        // Cel was hot
+                        // If cell was hot
                         case 4:
                             // Cell dies if it is too hot
                             if (numNeighbours > 3)
@@ -127,7 +137,7 @@ public class GameOfLife2D : MonoBehaviour
                                 toBeWarm.Add(new Vector2Int(i, j));
                             break;
 
-                        // Cell was dead
+                        // If cell was dead
                         case 0:
                             if (numNeighbours == 3)
                                 toBeCold.Add(new Vector2Int(i, j));
@@ -137,26 +147,31 @@ public class GameOfLife2D : MonoBehaviour
                     }
                 }
 
-            // To save user's choice
+            // To save user's last color choice
             int lastpos = currentValue;
 
             // Updating
 
+            // Removes from grid all cells which must be dead
             foreach (var cell in toBeDead)
                 DestroyCell(cell);
 
+            // Creates all cold cells
             SwitchToCold();
             foreach (var cell in toBeCold)
                 CreateCell(cell);
 
+            // Creates all warm cells
             SwitchToWarm();
             foreach (var cell in toBeWarm)
                 CreateCell(cell);
 
+            // Creates all hot cells
             SwitchToHot();
             foreach (var cell in toBeHot)
                 CreateCell(cell);
 
+            // Returns back to player's choice
             if (lastpos == 2)
                 SwitchToCold();
             if (lastpos == 3)
@@ -166,9 +181,11 @@ public class GameOfLife2D : MonoBehaviour
         }
         else
         {
+            // Saves coordinates of cells which must be updated 
             List<Vector2Int> toBeAlive = new List<Vector2Int>();
             List<Vector2Int> toBeDead = new List<Vector2Int>();
 
+            // Going through the grid
             for (int i = 0; i < width; i++)
                 for (int j = 0; j < height; j++)
                 {
@@ -186,6 +203,7 @@ public class GameOfLife2D : MonoBehaviour
                     }
                 }
 
+            // Updates cells
             foreach (Vector2Int cell in toBeAlive)
                 CreateCell(cell);
 
@@ -193,16 +211,15 @@ public class GameOfLife2D : MonoBehaviour
                 DestroyCell(cell);
         }
 
-
         GameOfLifeManager.instance.genText.text = $"Generation: {generation}";
     }
 
     /// <summary>
-    /// Counts number of alive neighbours of cell
+    /// Counts number of neighbours of cell
     /// </summary>
     /// <param name="x">x-coordinate of cell</param>
     /// <param name="y">y-coordinate of cell</param>
-    /// <returns>Number of alive nighbours</returns>
+    /// <returns>Number of cell's neighbours</returns>
     protected int GetNeighbours(int x, int y)
     {
         int neighbours = 0;
@@ -213,17 +230,15 @@ public class GameOfLife2D : MonoBehaviour
         int maxYRange = y < height - 1 ? 1 : 0;
 
         for (int i = minXRange; i <= maxXRange; i++)
-        {
             for (int j = minYRange; j <= maxYRange; j++)
             {
-                if (i == 0 && j == 0) // Don't count ourselves
+                // Don't count ourselves
+                if (i == 0 && j == 0) 
                     continue;
                 // From warmer to colder
                 if (values[x + i, y + j] >= values[x, y] && values[x + i, y + j] != 0)
                     neighbours++;
             }
-        }
-
         return neighbours;
     }
 
@@ -238,6 +253,7 @@ public class GameOfLife2D : MonoBehaviour
         generation = 0;
         StopSim();
 
+        // Destroys all game objects on grid
         foreach (GameObject cell in grid)
             if (cell != null)
                 Destroy(cell);
@@ -272,8 +288,13 @@ public class GameOfLife2D : MonoBehaviour
         GameOfLifeManager.instance.StepButton.SetActive(true);
     }
 
+    /// <summary>
+    /// Updates cell's mateial
+    /// </summary>
+    /// <param name="cellPosition">Position of cell on grid</param>
     private void UpdateMaterial(Vector2Int cellPosition)
     {
+        // If coodinates are out of range, nothing will happen
         try
         {
             GameObject cell = grid[cellPosition.x, cellPosition.y];
@@ -282,18 +303,19 @@ public class GameOfLife2D : MonoBehaviour
             else
                 DestroyCell(cellPosition);
         }
-        catch
+        catch (Exception)
         {
             return;
         }
     }
 
     /// <summary>
-    /// Method for creating a cell in 2D scene
+    /// Creates a cell on grid
     /// </summary>
     /// <param name="cellPosition">Cell's position</param>
     private void CreateCell(Vector2Int cellPosition)
     {
+        // If game object already exists, destroys it first
         if (grid[cellPosition.x, cellPosition.y] != null)
             DestroyCell(cellPosition);
 
@@ -305,7 +327,7 @@ public class GameOfLife2D : MonoBehaviour
     }
 
     /// <summary>
-    /// Method for destroying a cell in 2D scene
+    /// Destroys a cell on grid
     /// </summary>
     /// <param name="cellPosition">Cell's position</param>
     private void DestroyCell(Vector2Int cellPosition)
@@ -317,30 +339,45 @@ public class GameOfLife2D : MonoBehaviour
         values[cellPosition.x, cellPosition.y] = 0;
     }
 
+    /// <summary>
+    /// Resets values
+    /// </summary>
     public void TemperatureModeOff()
     {
         cellPrefab = aliveCellPrefab;
         currentValue = 1;
     }
 
+    /// <summary>
+    /// Sets values if temperature mode is on
+    /// </summary>
     public void TemperatureModeOn()
     {
         cellPrefab = hotCellPrefab;
         currentValue = 4;
     }
 
+    /// <summary>
+    /// Sets values for cold cell
+    /// </summary>
     public void SwitchToCold()
     {
         cellPrefab = coldCellPrefab;
         currentValue = 2;
     }
 
+    /// <summary>
+    /// Sets values for warm cell
+    /// </summary>
     public void SwitchToWarm()
     {
         cellPrefab = warmCellPrefab;
         currentValue = 3;
     }
 
+    /// <summary>
+    /// Sets values for hot cell
+    /// </summary>
     public void SwitchToHot()
     {
         cellPrefab = hotCellPrefab;

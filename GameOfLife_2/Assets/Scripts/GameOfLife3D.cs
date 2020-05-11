@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,11 +7,14 @@ public class GameOfLife3D : GameOfLife2D
     [SerializeField]
     private GameObject[,,] grid;
 
+    // Size of cube
     private int width = 24;
     private int height = 24;
     public int depth = 24;
 
+    // Prefab for selection
     public GameObject selectedCell;
+
     public float cameraDistancePlacement = 10.0f;
 
     // Start is called before the first frame update
@@ -67,10 +69,9 @@ public class GameOfLife3D : GameOfLife2D
         List<Vector3Int> toBeAlive = new List<Vector3Int>();
         List<Vector3Int> toBeDead = new List<Vector3Int>();
 
+        // Goes through the cube 
         for (int i = 0; i < width; i++)
-        {
             for (int j = 0; j < height; j++)
-            {
                 for (int k = 0; k < depth; k++)
                 {
                     bool cellIsAlive = grid[i, j, k] != null;
@@ -86,11 +87,11 @@ public class GameOfLife3D : GameOfLife2D
                             toBeAlive.Add(new Vector3Int(i, j, k));
                     }
                 }
-            }
-        }
 
+        // Updates cells
         foreach (Vector3Int cell in toBeAlive)
             CreateCell(cell);
+
         foreach (Vector3Int cell in toBeDead)
             DestroyCell(cell);
 
@@ -119,7 +120,8 @@ public class GameOfLife3D : GameOfLife2D
             for (int j = minYRange; j <= maxYRange; j++)
                 for (int k = minZRange; k <= maxZRange; k++)
                 {
-                    if (i == 0 && j == 0 && k == 0) // Don't count ourselves
+                    // Don't count ourselves
+                    if (i == 0 && j == 0 && k == 0) 
                         continue;
                     bool neighbourIsAlive = grid[x + i, y + j, z + k] != null;
                     neighbours += neighbourIsAlive ? 1 : 0;
@@ -128,13 +130,20 @@ public class GameOfLife3D : GameOfLife2D
         return neighbours;
     }
 
+    /// <summary>
+    /// Does one-step updatong
+    /// </summary>
     public override void NextStep() => UpdateCells();
 
+    /// <summary>
+    /// Clears cube
+    /// </summary>
     public override void ResetCells()
     {
         generation = 0;
         StopSim();
 
+        // Destroys all game objects in cube
         foreach (GameObject cell in grid)
             if (cell != null)
                 Destroy(cell);
@@ -144,27 +153,31 @@ public class GameOfLife3D : GameOfLife2D
         GameOfLifeManager.instance.genText.text = $"Generation: {generation}";
     }
 
-    private void ChangeCellState(Vector3Int cellPos)
+    /// <summary>
+    /// Updates cell's material
+    /// </summary>
+    /// <param name="cellPosition">Cell's position</param>
+    private void ChangeCellState(Vector3Int cellPosition)
     {
         // Position might be out of range
         try
         {
-            GameObject cell = grid[cellPos.x, cellPos.y, cellPos.z];
+            GameObject cell = grid[cellPosition.x, cellPosition.y, cellPosition.z];
             // If cell on selected position is dead, we create a new one
             if (cell == null)
-                CreateCell(cellPos);
+                CreateCell(cellPosition);
             // If cell on selected position  is alive, we destroy it
             else
-                DestroyCell(cellPos);
+                DestroyCell(cellPosition);
         }
-        catch
+        catch (Exception)
         {
             return;
         }
     }
 
     /// <summary>
-    /// Method for creating new cell in 3D scene
+    /// Creates new cell in 3D scene
     /// </summary>
     /// <param name="cellPosition">Cell's position</param>
     private void CreateCell(Vector3Int cellPosition)
@@ -176,7 +189,7 @@ public class GameOfLife3D : GameOfLife2D
     }
 
     /// <summary>
-    /// Method for destroying a cell in 3D scene
+    /// Destroys a cell in 3D scene
     /// </summary>
     /// <param name="cellPosition">Cell's position</param>
     private void DestroyCell(Vector3Int cellPosition)
