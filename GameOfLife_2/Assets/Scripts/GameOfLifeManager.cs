@@ -224,16 +224,16 @@ public class GameOfLifeManager : MonoBehaviour
     public void LoadMenu() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
 
     #region Methods for interacting with cell's patterns in different modes
-    public void Pattern1ButtonClick() => game.Pattern1Click();
-    public void Pattern2ButtonClick() => game.Pattern2Click();
-    public void Pattern3ButtonClick() => game.Pattern3Click();
+    public void ColoredPattern1ButtonClick() => game.ColoredPattern1Click();
+    public void ColoredPattern2ButtonClick() => game.ColoredPattern2Click();
+    public void ColoredPattern3ButtonClick() => game.ColoredPattern3Click();
 
-    public void BWPattern1ButtonClick() => game.BWPattern1Click();
-    public void BWPattern2ButtonClick() => game.BWPattern2Click();
-    public void BWPattern3ButtonClick() => game.BWPattern3Click();
-    public void BWPattern4ButtonClick() => game.BWPattern4Click();
-    public void BWPattern5ButtonClick() => game.BWPattern5Click();
-    public void BWPattern6ButtonClick() => game.BWPattern6Click();
-    public void BWPattern7ButtonClick() => game.BWPattern7Click();
+    public void GliderButtonClick() => game.GliderClick();
+    public void GliderGeneratorButtonClick() => game.GliderGeneratorClick();
+    public void SpaceshipButtonClick() => game.SpaceshipClick();
+    public void GosperGunButtonClick() => game.GosperGunClick();
+    public void ExploderButtonClick() => game.ExploderClick();
+    public void TumblerButtonClick() => game.TumblerClick();
+    public void GourmetButtonClick() => game.GourmetClick();
     #endregion
 }

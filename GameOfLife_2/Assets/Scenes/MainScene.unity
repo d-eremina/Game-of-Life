@@ -203,7 +203,7 @@ GameObject:
   - component: {fileID: 37707893}
   - component: {fileID: 37707892}
   m_Layer: 5
-  m_Name: Pattern3
+  m_Name: Spaceship
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -289,7 +289,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1202370375}
-        m_MethodName: BWPattern3ButtonClick
+        m_MethodName: SpaceshipButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1016,8 +1016,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2142255412}
   m_HandleRect: {fileID: 2142255411}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.39817423
+  m_Value: 0.5
+  m_Size: 0.39228636
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1592,7 +1592,7 @@ GameObject:
   - component: {fileID: 386219145}
   - component: {fileID: 386219144}
   m_Layer: 5
-  m_Name: Pattern7
+  m_Name: Gourmet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1678,7 +1678,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1202370375}
-        m_MethodName: BWPattern7ButtonClick
+        m_MethodName: GourmetButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1918,9 +1918,9 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1200, y: 800}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 1
+  m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -2301,7 +2301,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1202370375}
-        m_MethodName: Pattern2ButtonClick
+        m_MethodName: ColoredPattern2ButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2446,7 +2446,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1202370375}
-        m_MethodName: Pattern3ButtonClick
+        m_MethodName: ColoredPattern3ButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2505,7 +2505,7 @@ GameObject:
   - component: {fileID: 779232305}
   - component: {fileID: 779232304}
   m_Layer: 5
-  m_Name: Pattern5
+  m_Name: Exploder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2591,7 +2591,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1202370375}
-        m_MethodName: BWPattern5ButtonClick
+        m_MethodName: ExploderButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3083,7 +3083,7 @@ GameObject:
   - component: {fileID: 926613380}
   - component: {fileID: 926613379}
   m_Layer: 5
-  m_Name: Pattern2
+  m_Name: GliderGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3169,7 +3169,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1202370375}
-        m_MethodName: BWPattern2ButtonClick
+        m_MethodName: GliderGeneratorButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4187,7 +4187,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1202370375}
-        m_MethodName: Pattern1ButtonClick
+        m_MethodName: ColoredPattern1ButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4581,7 +4581,7 @@ GameObject:
   - component: {fileID: 1382172628}
   - component: {fileID: 1382172627}
   m_Layer: 5
-  m_Name: Pattern6
+  m_Name: Tumbler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4667,7 +4667,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1202370375}
-        m_MethodName: BWPattern6ButtonClick
+        m_MethodName: TumblerButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4803,7 +4803,7 @@ GameObject:
   - component: {fileID: 1534009782}
   - component: {fileID: 1534009781}
   m_Layer: 5
-  m_Name: Pattern4
+  m_Name: GosperGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4889,7 +4889,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1202370375}
-        m_MethodName: BWPattern4ButtonClick
+        m_MethodName: GosperGunButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5823,7 +5823,7 @@ GameObject:
   - component: {fileID: 1882982959}
   - component: {fileID: 1882982958}
   m_Layer: 5
-  m_Name: Pattern1
+  m_Name: Glider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5909,7 +5909,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1202370375}
-        m_MethodName: BWPattern1ButtonClick
+        m_MethodName: GliderButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6209,7 +6209,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 163, y: -660}
+  m_AnchoredPosition: {x: 163, y: -258.90903}
   m_SizeDelta: {x: 250, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1946887185

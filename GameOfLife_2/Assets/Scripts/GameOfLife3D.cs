@@ -10,7 +10,7 @@ public class GameOfLife3D : GameOfLife2D
     // Size of cube
     private int width = 24;
     private int height = 24;
-    public int depth = 24;
+    private int depth = 24;
 
     // Prefab for selection
     public GameObject selectedCell;

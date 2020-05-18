@@ -385,7 +385,7 @@ public class GameOfLife2D : MonoBehaviour
     }
 
     #region Temperature Patterns
-    public void Pattern1Click()
+    public void ColoredPattern1Click()
     {
         ResetCells();
         SwitchToHot();
@@ -417,7 +417,7 @@ public class GameOfLife2D : MonoBehaviour
         CreateCell(new Vector2Int(middle + 2, middle - 1));
     }
 
-    public void Pattern2Click()
+    public void ColoredPattern2Click()
     {
         ResetCells();
 
@@ -454,7 +454,7 @@ public class GameOfLife2D : MonoBehaviour
         }
     }
 
-    public void Pattern3Click()
+    public void ColoredPattern3Click()
     {
         ResetCells();
         SwitchToHot();
@@ -482,8 +482,7 @@ public class GameOfLife2D : MonoBehaviour
     #endregion
 
     #region BW Mode Patterns
-
-    public void BWPattern1Click()
+    public void GliderClick()
     {
         ResetCells();
 
@@ -494,7 +493,7 @@ public class GameOfLife2D : MonoBehaviour
         CreateCell(new Vector2Int(2, height - 2));
     }
 
-    public void BWPattern2Click()
+    public void GliderGeneratorClick()
     {
         ResetCells();
         int middle = 50;
@@ -513,7 +512,7 @@ public class GameOfLife2D : MonoBehaviour
         }
     }
 
-    public void BWPattern3Click()
+    public void SpaceshipClick()
     {
         ResetCells();
 
@@ -534,7 +533,7 @@ public class GameOfLife2D : MonoBehaviour
             CreateCell(new Vector2Int(2 + i, middle + 2));
     }
 
-    public void BWPattern4Click()
+    public void GosperGunClick()
     {
         ResetCells();
 
@@ -601,7 +600,7 @@ public class GameOfLife2D : MonoBehaviour
         CreateCell(new Vector2Int(leftStart + 36, 94 - upper));
     }
 
-    public void BWPattern5Click()
+    public void ExploderClick()
     {
         ResetCells();
 
@@ -617,7 +616,7 @@ public class GameOfLife2D : MonoBehaviour
         CreateCell(new Vector2Int(middle, middle + 2));
     }
 
-    public void BWPattern6Click()
+    public void TumblerClick()
     {
         ResetCells();
 
@@ -640,7 +639,7 @@ public class GameOfLife2D : MonoBehaviour
         }
     }
 
-    public void BWPattern7Click()
+    public void GourmetClick()
     {
         ResetCells();
 
