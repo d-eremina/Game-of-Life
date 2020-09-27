@@ -1,2 +1,2 @@
-# GameOfLifeSecondVersion
-Okay I'm trying to do my best
+# Game Of Life
+Unity realization as a coursework
